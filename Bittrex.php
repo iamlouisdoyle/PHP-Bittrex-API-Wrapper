@@ -1,6 +1,6 @@
 <?php
 
-	class BittrexWrapper
+	class Bittrex
 	{
 		private $baseUrl;
 		private $apiVersion = 'v1.1';
