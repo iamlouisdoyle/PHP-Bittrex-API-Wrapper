@@ -1,1 +1,1 @@
-# PHP Bittrex Wrapper
+# PHP Bittrex API Wrapper
