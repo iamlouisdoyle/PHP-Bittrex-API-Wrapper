@@ -12,11 +12,11 @@
 		{
 			$this->apiKey = $apiKey;
 			$this->apiSecret = $apiSecret;
-			$this->baseUrl = 'https://bittrex.com/api/'. $this->apiVersion .'/';
+			$this->baseUrl = 'https://bittrex.com/api/'.$this->apiVersion;
 		}
 
 
-		private function Call($method, $parameters = new array(), $apiKey = false)
+		private function Call($method, $parameters = array(), $apiKey = false)
 		{
 			$uri = $this->baseUrl.$method;
 
@@ -44,7 +44,7 @@
 		*/
 		public function GetMarkets()
 		{
-			
+			return $this->Call('/public/getmarkets');
 		}
 
 
@@ -53,7 +53,7 @@
 		*/
 		public function GetCurrencies()
 		{
-			
+			return $this->Call('/public/getcurrencies');
 		}
 
 
@@ -62,7 +62,7 @@
 		*/
 		public function GetTicker($market)
 		{
-
+			return $this->Call('/public/getticker', array('market' => $market));
 		}
 
 
@@ -71,7 +71,7 @@
 		*/
 		public function GetMarketSummaries()
 		{
-
+			return $this->Call('/public/getmarketsummaries');
 		}
 
 
@@ -80,7 +80,7 @@
 		*/
 		public function GetMarketSummary($market)
 		{
-
+			return $this->Call('/public/getmarketsummary', array('market' => $market));
 		}
 
 
@@ -89,7 +89,7 @@
 		*/
 		public function GetOrderBook($market, $type)
 		{
-
+			return $this->Call('/public/getorderbook', array('market' => $market, 'type' => $type));
 		}
 
 
@@ -98,7 +98,7 @@
 		*/
 		public function GetMarketHistory($market)
 		{
-
+			return $this->Call('/public/getmarkethistory', array('market' => $market));
 		}
 
 
@@ -108,7 +108,7 @@
 		*/
 		public function BuyLimit($market, $quantity, $rate)
 		{
-
+			return $this->Call('/market/buylimit', array('market' => $market, 'quantity' => $quantity, 'rate' => $rate), true);
 		}
 
 
@@ -118,7 +118,7 @@
 		*/
 		public function SellLimit($market, $quantity, $rate)
 		{
-
+			return $this->Call('/market/selllimit', array('market' => $market, 'quantity' => $quantity, 'rate' => $rate), true);
 		}
 
 
@@ -127,7 +127,7 @@
 		*/
 		public function Cancel($uuid)
 		{
-
+			return $this->Call('/market/cancel', array('uuid' => $uuid), true);
 		}
 
 
@@ -137,7 +137,7 @@
 		*/
 		public function GetOpenOrders($market = null)
 		{
-
+			return $this->Call('/market/getopenorders', array('market' => $market), true);
 		}
 
 
@@ -146,7 +146,7 @@
 		*/
 		public function GetBalances()
 		{
-
+			return $this->Call('/account/getbalances', array(), true);
 		}
 
 
@@ -155,7 +155,7 @@
 		*/
 		public function GetBalance($currency)
 		{
-
+			return $this->Call('/account/getbalance', array('currency' => $currency), true);
 		}
 
 
@@ -165,7 +165,7 @@
 		*/
 		public function GetDepositAddress($currency)
 		{
-
+			return $this->Call('/account/getdepositaddress', array('currency' => $currency), true);
 		}
 
 
@@ -175,7 +175,18 @@
 		*/
 		public function Withdraw($currency, $quantity, $address, $paymentid)
 		{
+			$parameters = array(
+				'currency' => $currency,
+				'quantity' => $quantity,
+				'address' => $address
+			);
 
+			if($paymentid)
+			{
+				$parameters['paymentid'] = $paymentid;
+			}
+
+			return $this->Call('/account/withdraw', $parameters, true);
 		}
 
 
@@ -184,7 +195,7 @@
 		*/
 		public function GetOrder($uuid)
 		{
-
+			return $this->Call('/account/getorder', array('uuid' => $uuid), true);
 		}
 
 
@@ -193,7 +204,14 @@
 		*/
 		public function GetOrderHistory($market = null)
 		{
+			$parameters = array();
 
+			if($market)
+			{
+				$parameters['market'] = $market;
+			}
+
+			return $this->Call('/account/getorderhistory', $parameters, true);
 		}
 
 
@@ -202,7 +220,14 @@
 		*/
 		public function GetWithdrawalHistory($currency = null)
 		{
+			$parameters = array();
 
+			if($currency)
+			{
+				$parameters['currency'] = $currency;
+			}
+
+			return $this->Call('/account/getwithdrawalhistory', $parameters, true);
 		}
 
 
@@ -211,8 +236,14 @@
 		*/
 		public function GetDepositHistory($currency = null)
 		{
+			$parameters = array();
 
+			if($currency)
+			{
+				$parameters['currency'] = $currency;
+			}
+
+			return $this->Call('/account/getdeposithistory', $parameters, true);
 		}
 	}
-
 ?>
