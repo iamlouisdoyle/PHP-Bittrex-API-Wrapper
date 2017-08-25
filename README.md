@@ -1,6 +1,4 @@
 # PHP Bittrex API Wrapper
-
-## Description
 An API wrapper class for the Bittrex altcoin exchange platform ([https://bittrex.com/home/api](https://bittrex.com/home/api)).
 
 ## Usage
